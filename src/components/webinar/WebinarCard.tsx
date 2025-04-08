@@ -71,7 +71,7 @@ export function WebinarCard({
   
   // Naviguer vers la page détaillée quand on clique sur la carte
   const handleCardClick = () => {
-    navigate(`/webinars/${id}`);
+    navigate(`/webinaire/${id}`);
     speakWebinar();
   };
 

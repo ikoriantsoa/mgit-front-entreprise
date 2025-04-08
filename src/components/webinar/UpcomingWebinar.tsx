@@ -24,7 +24,7 @@ export function UpcomingWebinar({ title, date, time, presenter }: UpcomingWebina
         </div>
       </div>
       <Button size="sm" variant="outline" className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
-        Voir
+        Intéresser
       </Button>
     </div>
   );

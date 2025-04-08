@@ -1,17 +1,9 @@
-
 import { Layout } from "@/components/layout/Layout";
-import { StatCard } from "@/components/dashboard/StatCard";
 import { WebinarCard } from "@/components/webinar/WebinarCard";
 import { WebinarCalendar } from "@/components/dashboard/WebinarCalendar";
 import { UpcomingWebinar } from "@/components/webinar/UpcomingWebinar";
-import { 
-  Users,
-  Video,
-  Calendar,
-  TrendingUp 
-} from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { webinars, upcomingWebinarsSimple, stats } from "@/data/mockData";
+import { webinars, upcomingWebinarsSimple } from "@/data/mockData";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
