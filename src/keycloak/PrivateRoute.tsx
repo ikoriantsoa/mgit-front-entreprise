@@ -12,11 +12,11 @@ const PrivateRoute = ({ children, roles }) => {
   console.log("realmRoles", realmRoles);
 
   const clientRoles: string[] =
-    keycloak.tokenParsed?.resource_access?.[keycloak.clientId]?.roles;
+    keycloak.tokenParsed?.resource_access?.[keycloak.clientId]?.roles || roles;
   console.log("clientRoles", clientRoles);
 
   const userRoles: string[] = [...realmRoles, ...clientRoles];
-  console.log("userRoles", userRoles);
+  console.log();
   
 
   if (roles && roles.length > 0) {
