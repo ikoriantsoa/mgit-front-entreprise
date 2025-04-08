@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -11,6 +10,7 @@ import WebinarList from "./pages/WebinarList";
 import WebinarDetail from "./pages/WebinarDetail";
 import CalendarPage from "./pages/Calendar";
 import Trainees from "./pages/Trainees";
+import PrivateRoute from "./keycloak/PrivateRoute";
 
 const queryClient = new QueryClient();
 
@@ -22,11 +22,46 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/webinaires" element={<WebinarList />} />
-            <Route path="/webinaire/:id" element={<WebinarDetail />} />
-            <Route path="/calendrier" element={<CalendarPage />} />
-            <Route path="/stagiaires" element={<Trainees />} />
+            <Route
+              path="/"
+              element={
+                <PrivateRoute roles={["entreprise"]}>
+                  <Index />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/webinaires"
+              element={
+                <PrivateRoute roles={["entreprise"]}>
+                  <WebinarList />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/webinaire/:id"
+              element={
+                <PrivateRoute roles={["entreprise"]}>
+                  <WebinarDetail />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/calendrier"
+              element={
+                <PrivateRoute roles={["entreprise"]}>
+                  <CalendarPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/stagiaires"
+              element={
+                <PrivateRoute roles={["entreprise"]}>
+                  <Trainees />
+                </PrivateRoute>
+              }
+            />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
