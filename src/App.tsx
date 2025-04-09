@@ -11,6 +11,7 @@ import WebinarDetail from "./pages/WebinarDetail";
 import CalendarPage from "./pages/Calendar";
 import Trainees from "./pages/Trainees";
 import PrivateRoute from "./keycloak/PrivateRoute";
+import Unhauthorized from "./pages/Unhauthorized";
 
 const queryClient = new QueryClient();
 
@@ -62,6 +63,7 @@ const App = () => (
                 </PrivateRoute>
               }
             />
+            <Route path="/unauthorized" element={<Unhauthorized />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

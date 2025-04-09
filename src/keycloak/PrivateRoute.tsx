@@ -15,12 +15,12 @@ const PrivateRoute = ({ children, roles }) => {
     keycloak.tokenParsed?.resource_access?.[keycloak.clientId]?.roles || roles;
   console.log("clientRoles", clientRoles);
 
-  const userRoles: string[] = [...realmRoles, ...clientRoles];
-  console.log();
+  const userRoles: string[] = [...realmRoles];
+  console.log("userRoles", userRoles);
   
 
   if (roles && roles.length > 0) {
-    const hasRequiredRole: boolean = roles.some((role) => userRoles.includes(role));
+    const hasRequiredRole: boolean = roles.some((roles) => userRoles.includes(roles));
     console.log("hasRequiredRole", hasRequiredRole);
 
     if (!hasRequiredRole) {
