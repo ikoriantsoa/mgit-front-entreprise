@@ -26,5 +26,5 @@ export const refreshToken = async () => {
 export const setupToken = () => {
   setInterval(async () => {
     await refreshToken();
-  }, 1 * 60 * 1000);
+  }, 5 * 60 * 1000);
 };

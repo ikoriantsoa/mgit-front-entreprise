@@ -26,7 +26,7 @@ const App = () => (
             <Route
               path="/"
               element={
-                <PrivateRoute roles={["entreprise"]}>
+                <PrivateRoute roles={["entreprise", "admin"]}>
                   <Index />
                 </PrivateRoute>
               }
@@ -34,7 +34,7 @@ const App = () => (
             <Route
               path="/webinaires"
               element={
-                <PrivateRoute roles={["entreprise"]}>
+                <PrivateRoute roles={["entreprise", "admin"]}>
                   <WebinarList />
                 </PrivateRoute>
               }
@@ -42,7 +42,7 @@ const App = () => (
             <Route
               path="/webinaire/:id"
               element={
-                <PrivateRoute roles={["entreprise"]}>
+                <PrivateRoute roles={["entreprise", "admin"]}>
                   <WebinarDetail />
                 </PrivateRoute>
               }
@@ -50,7 +50,7 @@ const App = () => (
             <Route
               path="/calendrier"
               element={
-                <PrivateRoute roles={["entreprise"]}>
+                <PrivateRoute roles={["entreprise", "admin"]}>
                   <CalendarPage />
                 </PrivateRoute>
               }
@@ -58,7 +58,7 @@ const App = () => (
             <Route
               path="/stagiaires"
               element={
-                <PrivateRoute roles={["entreprise"]}>
+                <PrivateRoute roles={["entreprise", "admin"]}>
                   <Trainees />
                 </PrivateRoute>
               }
