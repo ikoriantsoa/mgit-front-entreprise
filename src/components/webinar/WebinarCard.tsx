@@ -107,7 +107,6 @@ export function WebinarCard({
     }
     
     if (!API_KEY) {
-      toast.error("Veuillez configurer votre clé API ElevenLabs");
       return;
     }
 
