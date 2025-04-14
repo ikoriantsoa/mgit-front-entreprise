@@ -21,7 +21,7 @@ export function TraineeWebinars({ webinarsAttended, totalWebinars, attendedWebin
     <div className="space-y-3">
       <h3 className="text-xl font-semibold flex items-center gap-2">
         <Video className="h-5 w-5 text-primary" />
-        Webinaires suivis ({webinarsAttended}/{totalWebinars})
+        Webinaires réalisés ({webinarsAttended}/{totalWebinars})
       </h3>
       {attendedWebinars && attendedWebinars.length > 0 ? (
         <div className="border rounded-md overflow-hidden">

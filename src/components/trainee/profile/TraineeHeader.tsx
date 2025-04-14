@@ -26,28 +26,6 @@ export function TraineeHeader({ trainee }: TraineeHeaderProps) {
           ))}
         </div>
       </div>
-      <div className="flex flex-col space-y-2 text-sm">
-        <div className="flex items-center gap-2">
-          <Mail className="h-4 w-4 text-muted-foreground" />
-          <span>{trainee.email}</span>
-        </div>
-        {trainee.phone && (
-          <div className="flex items-center gap-2">
-            <Phone className="h-4 w-4 text-muted-foreground" />
-            <span>{trainee.phone}</span>
-          </div>
-        )}
-        {trainee.location && (
-          <div className="flex items-center gap-2">
-            <MapPin className="h-4 w-4 text-muted-foreground" />
-            <span>{trainee.location}</span>
-          </div>
-        )}
-        <div className="flex items-center gap-2">
-          <Calendar className="h-4 w-4 text-muted-foreground" />
-          <span>Inscrit le {trainee.enrollmentDate || "01/01/2023"}</span>
-        </div>
-      </div>
     </div>
   );
 }
