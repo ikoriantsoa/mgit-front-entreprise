@@ -10,32 +10,83 @@ import { Badge } from "@/components/ui/badge";
 import { CalendarIcon, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { WebinarCard } from "@/components/webinar/WebinarCard";
+import { WebinarCardSkeleton } from "@/components/webinar/WebinarCardSkeleton";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useQuery } from "@tanstack/react-query";
+
+// Simulation de fonctions d'API
+const fetchWebinarDates = async () => {
+  // Simuler un délai réseau
+  await new Promise(resolve => setTimeout(resolve, 1200));
+  return webinarDates;
+};
+
+const fetchWebinars = async () => {
+  // Simuler un délai réseau
+  await new Promise(resolve => setTimeout(resolve, 1500));
+  return webinars;
+};
+
+const fetchCurrentWebinar = async () => {
+  // Simuler un délai réseau
+  await new Promise(resolve => setTimeout(resolve, 800));
+  return webinars.find(w => w.status === "live");
+};
+
+const fetchWebinarsForDate = async (date) => {
+  // Simuler un délai réseau
+  await new Promise(resolve => setTimeout(resolve, 1000));
+  
+  // Si pas de date, retourner un tableau vide
+  if (!date) return [];
+  
+  // Vérifier si la date a des webinaires
+  const hasWebinars = webinarDates.some(webinarDate => 
+    isSameDay(webinarDate, date)
+  );
+  
+  // Si la date a des webinaires, retourner 3 webinaires de mock
+  if (hasWebinars) {
+    return webinars.slice(0, 3);
+  }
+  
+  return [];
+};
 
 const CalendarPage = () => {
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [view, setView] = useState<"month" | "day">("month");
 
+  // Utiliser react-query pour charger les données
+  const { data: webinarDatesData, isLoading: datesLoading } = useQuery({
+    queryKey: ['webinarDates'],
+    queryFn: fetchWebinarDates
+  });
+
+  const { data: webinarsData } = useQuery({
+    queryKey: ['webinars'],
+    queryFn: fetchWebinars
+  });
+
+  const { data: currentWebinar, isLoading: currentWebinarLoading } = useQuery({
+    queryKey: ['currentWebinar'],
+    queryFn: fetchCurrentWebinar
+  });
+
+  const { data: webinarsForDate, isLoading: dateWebinarsLoading } = useQuery({
+    queryKey: ['webinarsForDate', date ? date.toISOString() : null],
+    queryFn: () => fetchWebinarsForDate(date),
+    enabled: !!date
+  });
+
   // Fonction pour déterminer si une date a des webinaires
   const hasWebinarsOnDate = (date: Date) => {
-    return webinarDates.some(webinarDate => 
+    if (!webinarDatesData) return false;
+    
+    return webinarDatesData.some(webinarDate => 
       isSameDay(webinarDate, date)
     );
   };
-
-  // Obtenir les webinaires pour la date sélectionnée
-  const getWebinarsForDate = (date: Date | undefined) => {
-    if (!date) return [];
-    
-    // Simulons quelques webinaires pour la date sélectionnée
-    // Dans une vraie application, ces données viendraient d'une API
-    if (hasWebinarsOnDate(date)) {
-      return webinars.slice(0, 3); // Utilisons les 3 premiers webinaires mockés
-    }
-    return [];
-  };
-
-  // Obtenir le webinaire en cours (s'il y en a un)
-  const currentWebinar = webinars.find(w => w.status === "live");
 
   // Fonction pour naviguer entre les jours en vue quotidienne
   const navigateDay = (direction: number) => {
@@ -51,7 +102,7 @@ const CalendarPage = () => {
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Calendrier des webinaires</h1>
           <p className="text-muted-foreground">
-            Consultez tous les webinaires des autres apprenants.
+            Restez informer sur le calendrier .
           </p>
         </div>
 
@@ -71,23 +122,27 @@ const CalendarPage = () => {
               </div>
             </CardHeader>
             <CardContent>
-              <CalendarComponent
-                mode="single"
-                selected={date}
-                onSelect={setDate}
-                locale={fr}
-                className="rounded-md border"
-                modifiers={{
-                  webinarDay: webinarDates
-                }}
-                modifiersStyles={{
-                  webinarDay: {
-                    fontWeight: "bold",
-                    backgroundColor: "hsl(var(--primary) / 0.2)",
-                    color: "hsl(var(--primary))"
-                  }
-                }}
-              />
+              {datesLoading ? (
+                <Skeleton className="h-[340px] w-full rounded-md" />
+              ) : (
+                <CalendarComponent
+                  mode="single"
+                  selected={date}
+                  onSelect={setDate}
+                  locale={fr}
+                  className="rounded-md border"
+                  modifiers={{
+                    webinarDay: webinarDatesData || []
+                  }}
+                  modifiersStyles={{
+                    webinarDay: {
+                      fontWeight: "bold",
+                      backgroundColor: "hsl(var(--primary) / 0.2)",
+                      color: "hsl(var(--primary))"
+                    }
+                  }}
+                />
+              )}
             </CardContent>
           </Card>
 
@@ -115,21 +170,30 @@ const CalendarPage = () => {
             <CardContent>
               {date && view === "day" && (
                 <div className="space-y-4">
-                  {hasWebinarsOnDate(date) ? (
-                    <>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {getWebinarsForDate(date).map((webinar) => (
-                          <div key={webinar.id} className="p-3 rounded-md border bg-card hover:bg-muted/50 transition-colors">
-                            <div className="flex justify-between items-start mb-2">
-                              <Badge>{webinar.time}</Badge>
-                              <Badge variant="outline">{webinar.duration}</Badge>
-                            </div>
-                            <h3 className="font-medium">{webinar.title}</h3>
-                            <p className="text-sm text-muted-foreground">Présenté par {webinar.presenter}</p>
-                          </div>
-                        ))}
+                  {dateWebinarsLoading ? (
+                    Array(3).fill(0).map((_, index) => (
+                      <div key={index} className="p-3 rounded-md border bg-card">
+                        <div className="flex justify-between items-start mb-2">
+                          <Skeleton className="h-4 w-16" />
+                          <Skeleton className="h-4 w-16" />
+                        </div>
+                        <Skeleton className="h-5 w-3/4 mb-1" />
+                        <Skeleton className="h-4 w-1/2" />
                       </div>
-                    </>
+                    ))
+                  ) : webinarsForDate && webinarsForDate.length > 0 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {webinarsForDate.map((webinar) => (
+                        <div key={webinar.id} className="p-3 rounded-md border bg-card hover:bg-muted/50 transition-colors">
+                          <div className="flex justify-between items-start mb-2">
+                            <Badge>{webinar.time}</Badge>
+                            <Badge variant="outline">{webinar.duration}</Badge>
+                          </div>
+                          <h3 className="font-medium">{webinar.title}</h3>
+                          <p className="text-sm text-muted-foreground">Présenté par {webinar.presenter}</p>
+                        </div>
+                      ))}
+                    </div>
                   ) : (
                     <div className="flex flex-col items-center justify-center py-8 text-center">
                       <CalendarIcon className="h-12 w-12 text-muted-foreground mb-4" />
@@ -144,11 +208,20 @@ const CalendarPage = () => {
 
               {date && view === "month" && (
                 <>
-                  {hasWebinarsOnDate(date) ? (
+                  {dateWebinarsLoading ? (
+                    <div className="space-y-6">
+                      <Skeleton className="h-6 w-48 mb-4" />
+                      <div className="space-y-4">
+                        {Array(3).fill(0).map((_, index) => (
+                          <WebinarCardSkeleton key={index} />
+                        ))}
+                      </div>
+                    </div>
+                  ) : webinarsForDate && webinarsForDate.length > 0 ? (
                     <div className="space-y-6">
                       <h3 className="font-semibold">Webinaires du {format(date, "d MMMM", { locale: fr })}</h3>
                       <div className="grid grid-cols-1 gap-4">
-                        {getWebinarsForDate(date).map((webinar) => (
+                        {webinarsForDate.map((webinar) => (
                           <WebinarCard key={webinar.id} {...webinar} className="w-full" />
                         ))}
                       </div>
@@ -170,14 +243,21 @@ const CalendarPage = () => {
 
         {/* Webinaires à venir */}
         <div className="space-y-4">
-          <h2 className="text-xl font-semibold">Autres suggestions de webinaires</h2>
+          <h2 className="text-xl font-semibold">Prochains webinaires</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {webinars
-              .filter(webinar => webinar.status === "upcoming")
-              .slice(0, 3)
-              .map(webinar => (
-                <WebinarCard key={webinar.id} {...webinar} />
-              ))}
+            {!webinarsData ? (
+              // Afficher des skeletons pendant le chargement
+              Array(3).fill(0).map((_, index) => (
+                <WebinarCardSkeleton key={index} />
+              ))
+            ) : (
+              webinarsData
+                .filter(webinar => webinar.status === "upcoming")
+                .slice(0, 3)
+                .map(webinar => (
+                  <WebinarCard key={webinar.id} {...webinar} />
+                ))
+            )}
           </div>
         </div>
       </div>
