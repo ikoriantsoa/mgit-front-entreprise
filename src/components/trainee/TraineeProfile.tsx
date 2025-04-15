@@ -1,4 +1,3 @@
-
 import {
   DialogHeader,
   DialogTitle,
@@ -13,6 +12,7 @@ import { TraineeExperience } from "./profile/TraineeExperience";
 import { TraineeEducation } from "./profile/TraineeEducation";
 import { TraineeCertifications } from "./profile/TraineeCertifications";
 import { Trainee } from "@/data/mockData";
+import { Button } from "react-day-picker";
 
 interface TraineeProfileProps {
   trainee: Trainee | null;
@@ -26,24 +26,29 @@ export function TraineeProfile({ trainee }: TraineeProfileProps) {
   return (
     <>
       <DialogHeader>
-        <DialogTitle className="text-2xl font-bold">CV - {trainee.name}</DialogTitle>
+        <DialogTitle className="text-2xl font-bold">
+          CV - {trainee.name}
+        </DialogTitle>
         <DialogDescription>
           Profil de formation et parcours professionnel
         </DialogDescription>
       </DialogHeader>
-      
+
       <div className="mt-4 space-y-8">
         <TraineeHeader trainee={trainee} />
         <TraineeBio bio={trainee.bio} />
         <TraineeProgram trainee={trainee} />
-        <TraineeWebinars 
-          webinarsAttended={trainee.webinarsAttended} 
-          totalWebinars={trainee.totalWebinars} 
-          attendedWebinars={trainee.attendedWebinars} 
+        <TraineeWebinars
+          webinarsAttended={trainee.webinarsAttended}
+          totalWebinars={trainee.totalWebinars}
+          attendedWebinars={trainee.attendedWebinars}
         />
         <TraineeExperience experience={trainee.experience} />
         <TraineeEducation education={trainee.education} />
         <TraineeCertifications certifications={trainee.certifications} />
+      {
+        trainee.progress >= 80 && <button className="cursor-pointer bg-primary p-2 text-white text-sm font-semibold rounded-md">Contacter MGIT Service pour programmer un entretien</button>
+      }
       </div>
     </>
   );

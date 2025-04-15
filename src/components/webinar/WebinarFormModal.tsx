@@ -27,8 +27,8 @@ import { toast } from "sonner";
 interface WebinarFormModalProps {
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
-  webinar?: any; // Le webinaire à éditer (null pour un nouveau webinaire)
-  onSubmit: (webinar: any) => void;
+  webinar?; // Le webinaire à éditer (null pour un nouveau webinaire)
+  onSubmit: (webinar) => void;
 }
 
 export function WebinarFormModal({ isOpen, setIsOpen, webinar, onSubmit }: WebinarFormModalProps) {

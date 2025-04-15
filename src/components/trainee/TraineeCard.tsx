@@ -1,6 +1,5 @@
 
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
 interface TraineeCardProps {
@@ -41,6 +40,7 @@ export function TraineeCard({ trainee, onOpenProfile }: TraineeCardProps) {
       <CardFooter className="flex justify-between pt-2">
         <Button variant="outline" size="sm" onClick={() => onOpenProfile(trainee)}>Voir le profil</Button>
       </CardFooter>
+      
     </Card>
   );
 }
