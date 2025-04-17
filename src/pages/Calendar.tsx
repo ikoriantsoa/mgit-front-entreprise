@@ -3,7 +3,7 @@ import { Layout } from "@/components/layout/Layout";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 import { useState } from "react";
 import { webinarDates, webinars } from "@/data/mockData";
-import { addDays, format, isSameDay } from "date-fns";
+import { addDays, format, isBefore, isSameDay, subDays } from "date-fns";
 import { fr } from "date-fns/locale";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -56,6 +56,12 @@ const fetchWebinarsForDate = async (date) => {
 const CalendarPage = () => {
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [view, setView] = useState<"month" | "day">("month");
+
+  const yesterday = subDays(new Date(), 1);
+
+  const disabledDays = (day: Date) => {
+    return isBefore(day, yesterday);
+  };
 
   // Utiliser react-query pour charger les données
   const { data: webinarDatesData, isLoading: datesLoading } = useQuery({
@@ -141,6 +147,7 @@ const CalendarPage = () => {
                       color: "hsl(var(--primary))"
                     }
                   }}
+                  disabled={disabledDays}
                 />
               )}
             </CardContent>
