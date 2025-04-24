@@ -137,7 +137,6 @@ export function WebinarFormModal({ isOpen, setIsOpen, webinar, onSubmit }: Webin
       ...formData,
       date: combinedDateTime,
       id: webinar?.id,
-      // Ensure both imageUrl and thumbnailUrl are correctly set
       imageUrl: formData.imageUrl || formData.thumbnailUrl,
       thumbnailUrl: formData.thumbnailUrl || formData.imageUrl
     };
