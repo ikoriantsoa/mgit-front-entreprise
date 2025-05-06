@@ -12,6 +12,7 @@ import CalendarPage from "./pages/Calendar";
 import Trainees from "./pages/Trainees";
 import PrivateRoute from "./keycloak/PrivateRoute";
 import Unhauthorized from "./pages/Unhauthorized";
+import Page from "./pages/Page";
 
 const queryClient = new QueryClient();
 
@@ -21,6 +22,7 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Sonner />
+
         <BrowserRouter>
           <Routes>
             <Route
@@ -63,6 +65,7 @@ const App = () => (
                 </PrivateRoute>
               }
             />
+
             <Route path="/unauthorized" element={<Unhauthorized />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

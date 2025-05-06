@@ -28,6 +28,7 @@ import {
   webinarCategoryData, 
   topWebinarsData 
 } from "@/data/mockData";
+import Page from "./Page";
 
 // Simple Bar Chart Component
 const BarChartComponent = ({ data }: { data: any[] }) => {
@@ -105,7 +106,7 @@ const Reports = () => {
   const [activeTab, setActiveTab] = useState("attendance");
 
   return (
-    <Layout>
+    <Page>
       <div className="space-y-6 animate-fade-in">
         <div className="flex justify-between items-center">
           <div>
@@ -277,7 +278,7 @@ const Reports = () => {
           </TabsContent>
         </Tabs>
       </div>
-    </Layout>
+    </Page>
   );
 };
 

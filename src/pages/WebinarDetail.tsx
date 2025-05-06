@@ -31,6 +31,7 @@ import { useState, useRef, useEffect } from "react";
 import { toast } from "sonner";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@/components/ui/skeleton";
+import Page from "./Page";
 
 // Simulation de fonction d'API
 const fetchWebinarById = async (id) => {
@@ -73,7 +74,7 @@ const WebinarDetail = () => {
   // Si en chargement, afficher le skeleton
   if (isLoading) {
     return (
-      <Layout>
+      <Page>
         <div className="space-y-6 animate-fade-in">
           <Button variant="ghost" className="mb-2">
             <ArrowLeft className="mr-2 h-4 w-4" />
@@ -155,7 +156,7 @@ const WebinarDetail = () => {
             </div>
           </div>
         </div>
-      </Layout>
+      </Page>
     );
   }
 

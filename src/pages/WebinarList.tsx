@@ -140,7 +140,7 @@ const WebinarList = () => {
   );
 
   return (
-    <Layout>
+    <Page>
       <div className="space-y-6 animate-fade-in">
         <div className="flex items-center justify-between">
           <div>
@@ -284,11 +284,12 @@ const WebinarList = () => {
         webinar={webinarToEdit}
         onSubmit={webinarToEdit ? handleUpdateWebinar : handleAddWebinar}
       />
-    </Layout>
+    </Page>
   );
 };
 
 // Ajout de l'import manquant
 import { useEffect } from 'react';
+import Page from "./Page";
 
 export default WebinarList;

@@ -15,6 +15,7 @@ import { useToast } from "@/hooks/use-toast";
 import { TraineeFilters } from "@/components/trainee/TraineeFilters";
 import { TraineeList } from "@/components/trainee/TraineeList";
 import { TraineeProfile } from "@/components/trainee/TraineeProfile";
+import Page from "./Page";
 
 const fetchTrainees = async () => {
   await new Promise(resolve => setTimeout(resolve, 1000));
@@ -61,7 +62,7 @@ const Trainees = () => {
   };
 
   return (
-    <Layout>
+    <Page>
       <div className="space-y-6 animate-fade-in">
         <div className="flex justify-between items-center">
           <div>
@@ -92,7 +93,7 @@ const Trainees = () => {
           </DialogContent>
         </Dialog>
       </div>
-    </Layout>
+    </Page>
   );
 };
 
